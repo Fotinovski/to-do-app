@@ -1,0 +1,22 @@
+.mat-form-field {
+  width: 100%;
+  position: relative;
+  font-size: 1.6rem;
+  a {
+    position: absolute;
+    left: 100%;
+    bottom: 20%;
+  }
+}
+
+a:hover{
+  text-decoration: none;
+}
+
+.check{
+  transform: translateY(-3px);
+  padding-right: 10px;
+}
+.to-do-item{
+  font-size: 1.4rem;
+}
