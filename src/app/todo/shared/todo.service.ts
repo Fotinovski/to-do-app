@@ -25,5 +25,9 @@ export class TodoService {
   removeTitle($key: string) {
     this.toDoList.remove($key);
   }
+  removeAllTitles(){
+      this.toDoList.remove()
+  }
+
 
 }

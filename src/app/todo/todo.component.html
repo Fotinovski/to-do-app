@@ -1,39 +1,41 @@
 <mat-form-field>
-  <input matInput type="text"  #itemTitle placeholder="Enter your task here:">
+  <input
+    matInput
+    type="text"
+    #itemTitle
+    placeholder="Enter your task here:"
+    (keyup.enter)="onAdd(itemTitle)"
+  />
   <div class="input-group-addon hover-cursor" (click)="onAdd(itemTitle)">
-    <a mat-raised-button color="primary" >Add Task</a>
+    <a mat-raised-button color="primary">Add Task</a>
   </div>
 </mat-form-field>
 
-<mat-list style="margin:15px 0px">
-<mat-selection-list   *ngFor="let item of toDoListArray"  >
-  <mat-list-option  checkboxPosition="before" (click)="alterCheck(item.$key,item.isChecked)"
-  [selected]="item.isChecked">
-
-    <p [ngStyle]="item.isChecked?{'text-decoration': 'line-through'} : {'text-decoration': 'none'}">{{item.title}}</p>
-
-  </mat-list-option>
-  <button mat-icon-button color="warn" (click)="onDelete(item.$key)">
-    <mat-icon>delete</mat-icon>
-  </button>
-</mat-selection-list>
-</mat-list>
-
-<!-- <br><br>
-<div style="margin:15px 0px">
-  <ul class="list-group">
-    <mat-selection-list>
-    <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of toDoListArray">
-      <span class="hover-cursor " [class.text-success]="item.isChecked" (click)="alterCheck(item.$key,item.isChecked)">
-       <p>
-          <mat-checkbox [formControl]="disableSelect">Disable select</mat-checkbox>
-        </p>
-        <i class="fa fa-lg check" [ngClass]="item.isChecked?'fa-check-circle-o':'fa-circle-thin'"></i>
-      <span class="to-do-item">{{item.title}}</span> </span>
-      <span class="hover-cursor text-danger pull-right" (click)="onDelete(item.$key)">
-        <i class="fa fa-trash-o fa-lg"></i>
-      </span>
-    </li>
+<mat-list style="margin: 15px 0px" #titles>
+  <mat-selection-list *ngFor="let item of toDoListArray">
+    <mat-list-option
+      checkboxPosition="before"
+      (click)="alterCheck(item.$key, item.isChecked)"
+      [selected]="item.isChecked"
+    >
+      <p
+        [ngStyle]="
+          item.isChecked
+            ? { 'text-decoration': 'line-through' }
+            : { 'text-decoration': 'none' }
+        "
+      >
+        {{ item.title }}
+      </p>
+    </mat-list-option>
+    <!-- <button mat-icon-button color="accent" >
+      <mat-icon>edit</mat-icon>
+    </button> -->
+    <button mat-icon-button color="warn" (click)="onDelete(item.$key)">
+      <mat-icon>delete</mat-icon>
+    </button>
   </mat-selection-list>
-  </ul>
-</div> -->
+
+    <h3>Today you have finished: {{ tasksDone }} tasks.</h3>
+  <a mat-flat-button color="warn" class="d-flex align-self-start" (click)="onReset()" [disabled]="tasksDone === 0">Reset all</a>
+</mat-list>
