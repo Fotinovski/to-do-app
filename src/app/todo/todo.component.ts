@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoService } from './shared/todo.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroupDirective, NgForm, FormBuilder, FormGroup } from '@angular/forms';
+
 
 @Component({
   selector: 'app-todo',
@@ -8,16 +9,16 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./todo.component.scss'],
   providers: [TodoService],
 })
+
 export class TodoComponent implements OnInit {
   toDoListArray: any[];
-  constructor(private toDoService: TodoService) {}
+  constructor(private toDoService: TodoService ) {}
 
-  disableSelect = new FormControl(false);
-
+  ToDoArray = new FormControl('');
   tasksDone: number = 0;
-  // isTaskDone: boolean = false;
-  // isDeleted: boolean = false;
-  selected: boolean = false;
+
+
+
   ngOnInit() {
     this.toDoService
       .getToDoList()
@@ -38,27 +39,23 @@ export class TodoComponent implements OnInit {
   }
 
   onAdd(itemTitle) {
+    if(!this.ToDoArray.invalid){
     this.toDoService.addTitle(itemTitle.value);
-    itemTitle.value = null;
-    console.log('selected on added: ' + this.selected);
+    this.ToDoArray.reset();
+    // this.ToDoArray.setValue('');
+    }
   }
 
   alterCheck($key: string, isChecked) {
     this.toDoService.checkOrUnCheckTitle($key, !isChecked);
     isChecked ? this.tasksDone-- : !this.tasksDone++;
-    this.selected = true;
-    console.log('on click selected: ' + this.selected);
   }
 
-  onDelete($key: string) {
+  onDelete($key: string, isChecked: boolean) {
     this.toDoService.removeTitle($key);
-    if (this.tasksDone > 0 && this.selected === true) {
-      this.tasksDone--;
+    if(isChecked){
+      this.tasksDone--
     }
-    // if (this.tasksDone > 0 && !this.selected) {
-    //   this.tasksDone++;
-    // }
-    console.log('after delete: ' + this.selected);
   }
 
   onReset() {

@@ -4,12 +4,23 @@
     type="text"
     #itemTitle
     placeholder="Enter your task here:"
+    minlength="3"
     (keyup.enter)="onAdd(itemTitle)"
+    [formControl]="ToDoArray"
+    required
   />
-  <div class="input-group-addon hover-cursor" (click)="onAdd(itemTitle)">
-    <a mat-raised-button color="primary">Add Task</a>
-  </div>
 </mat-form-field>
+
+<div *ngIf="ToDoArray.invalid && (ToDoArray.dirty || ToDoArray.touched)">
+  <mat-error *ngIf="!ToDoArray.errors.required && ToDoArray.errors.minlength">
+    Please enter a valid task
+  </mat-error>
+  <mat-error *ngIf="ToDoArray.errors.required"> Please enter task! </mat-error>
+</div>
+
+<div class="input-group-addon hover-cursor" (click)="onAdd(itemTitle)">
+  <button mat-raised-button color="primary">Add Task</button>
+</div>
 
 <mat-list style="margin: 15px 0px" #titles>
   <mat-selection-list *ngFor="let item of toDoListArray">
@@ -31,11 +42,24 @@
     <!-- <button mat-icon-button color="accent" >
       <mat-icon>edit</mat-icon>
     </button> -->
-    <button mat-icon-button color="warn" (click)="onDelete(item.$key)">
+    <button
+      mat-icon-button
+      color="warn"
+      (click)="onDelete(item.$key, item.isChecked)"
+    >
       <mat-icon>delete</mat-icon>
     </button>
   </mat-selection-list>
 
-    <h3>Today you have finished: {{ tasksDone }} tasks.</h3>
-  <a mat-flat-button color="warn" class="d-flex align-self-start" (click)="onReset()" [disabled]="tasksDone === 0">Reset all</a>
+  <h3>Today you have finished: {{ tasksDone }} tasks.</h3>
+  <button
+    type="button"
+    mat-flat-button
+    color="warn"
+    class="d-flex align-self-start"
+    [disabled]="tasksDone === 0"
+    (click)="onReset()"
+  >
+    Reset all
+  </button>
 </mat-list>
