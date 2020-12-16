@@ -14,7 +14,7 @@ export class TodoService {
   addTitle(title: string) {
     this.toDoList.push({
       title: title,
-      isChecked: false
+      isChecked: false,
     });
   }
 
